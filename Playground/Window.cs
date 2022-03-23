@@ -44,19 +44,22 @@ namespace Playground
             _shader.Use();
         }
 
+        float _time;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-            
 
             _shader.Use();
+
+            GL.ClearColor(new Color4(43, 43, 23, 0));
 
             SwapBuffers();
         }
 
+        bool _isOn;
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
@@ -75,7 +78,18 @@ namespace Playground
                 _vertices[7] += 0.0001f;
                 
                 GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * sizeof(float), _vertices);
-                GL.ClearColor(new Color4(_vertices[0] + 1f, _vertices[3], _vertices[7], 0));
+            }
+
+            if(input.IsKeyPressed(Keys.B)) {
+                if(!_isOn)
+                {
+                    _isOn = true;
+                    _shader.ChangeColor("ourColor", 0.0f, 1.0f, 0.4f);
+                } else
+                {
+                    _isOn = false;
+                    _shader.ChangeColor("ourColor", 0.0f, 0.0f, 0.0f);
+                }
             }
         }
 

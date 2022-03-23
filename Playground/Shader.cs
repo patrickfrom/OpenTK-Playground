@@ -1,5 +1,5 @@
-﻿
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 
 namespace Playground
 {
@@ -30,6 +30,7 @@ namespace Playground
         public void Use()
         {
             GL.UseProgram(Handle);
+            
         }
 
         int CreateShader(ShaderType shaderType, string shaderSource)
@@ -45,6 +46,12 @@ namespace Playground
                 Console.WriteLine($"{shaderType} ID: {shader}");
 
             return shader;
+        }
+
+        public void ChangeColor(string uniformString, float r, float g, float b)
+        {
+            int vertexColorLocation = GL.GetUniformLocation(Handle, uniformString);
+            GL.Uniform4(vertexColorLocation, r, g, b, 1);
         }
     }
 }
