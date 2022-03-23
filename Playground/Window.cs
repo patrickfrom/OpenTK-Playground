@@ -39,7 +39,8 @@ namespace Playground
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+            // Ah yes, Art. (If anyone sees this, please show me a better way)
+            _shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
             _shader.Use();
         }
 
