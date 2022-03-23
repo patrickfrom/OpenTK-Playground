@@ -10,9 +10,13 @@ namespace Playground
     {
         private readonly float[] _vertices =
         {
-            -0.2f, -0.2f, 0.0f,
-            0.2f, -0.2f, 0.0f,
-            0.0f, 0.2f, 0.0f,
+            0.5f, 0.0f, 0.5f,
+            -0.5f, 0.0f, 0.5f,
+            0.0f, 0.5f, 0.0f,
+
+            -0.5f, 0.0f, 0.5f,
+            0.5f, 0.0f, 0.5f,
+            0.0f, -0.5f, 0.0f
         };
 
         private int _vertexBufferObject;
@@ -44,13 +48,12 @@ namespace Playground
             _shader.Use();
         }
 
-        float _time;
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(_vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Lines, 0, 3);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
 
             _shader.Use();
 
@@ -60,6 +63,7 @@ namespace Playground
         }
 
         bool _isOn;
+        float _speed = 0.0009f;
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
@@ -75,15 +79,35 @@ namespace Playground
             {
                 if(_isOn)
                 {
-                    _vertices[0] -= 0.0001f;
-                    _vertices[3] += 0.0001f;
-                    _vertices[7] += 0.0001f;
-                
+                    _vertices[0]  -= _speed;
+                    _vertices[3]  += _speed;
+                    _vertices[7] += _speed;
+
+                    _vertices[9] += _speed;
+                    _vertices[12] -= _speed;
+                    _vertices[16] -= _speed;
+
                     GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * sizeof(float), _vertices);
                 }
             }
 
-            if(input.IsKeyPressed(Keys.B)) {
+            if (input.IsKeyDown(Keys.R))
+            {
+                if (_isOn)
+                {
+                    _vertices[0] += _speed;
+                    _vertices[3] -= _speed;
+                    _vertices[7] -= _speed;
+
+                    _vertices[9] -= _speed;
+                    _vertices[12] += _speed;
+                    _vertices[16] += _speed;
+
+                    GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * sizeof(float), _vertices);
+                }
+            }
+
+            if (input.IsKeyPressed(Keys.B)) {
                 if(!_isOn)
                 {
                     _isOn = true;

@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
 
 namespace Playground
 {
@@ -27,6 +26,7 @@ namespace Playground
             GL.DeleteShader(fragmentShader);
             GL.DeleteShader(vertexShader);
         }
+
         public void Use()
         {
             GL.UseProgram(Handle);
