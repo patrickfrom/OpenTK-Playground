@@ -50,7 +50,7 @@ namespace Playground
             base.OnRenderFrame(e);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(_vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawArrays(PrimitiveType.Lines, 0, 3);
 
             _shader.Use();
 
@@ -73,11 +73,14 @@ namespace Playground
 
             if (input.IsKeyDown(Keys.E))
             {
-                _vertices[0] -= 0.0001f;
-                _vertices[3] += 0.0001f;
-                _vertices[7] += 0.0001f;
+                if(_isOn)
+                {
+                    _vertices[0] -= 0.0001f;
+                    _vertices[3] += 0.0001f;
+                    _vertices[7] += 0.0001f;
                 
-                GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * sizeof(float), _vertices);
+                    GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * sizeof(float), _vertices);
+                }
             }
 
             if(input.IsKeyPressed(Keys.B)) {
